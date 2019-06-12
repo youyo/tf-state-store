@@ -5,6 +5,8 @@ https://www.terraform.io/docs/backends/types/s3.html
 
 ## Usage
 
+1. Create backend.
+
 ```
 $ aws cloudformation deploy \
 	--stack-name tf-state-store \
@@ -31,4 +33,25 @@ $ aws cloudformation describe-stacks \
     "OutputValue": "caVk6L...CI1UAj0ie"
   }
 ]
+```
+
+2. Use by terraform.
+
+Write `backend.tf`
+
+```
+terraform {
+  backend "s3" {
+    bucket         = "tf-state-store-tfstatebucket-wtj95cwl1jp7"
+    key            = "terraform.tfstate"
+    region         = "ap-northeast-1"
+    dynamodb_table = "tf-state-store-TfStateLockTable-1O5JKFU5AD4D7"
+  }
+}
+```
+
+Initialize.
+
+```
+$ AWS_ACCESS_KEY_ID=AKIAU...LHV746J AWS_SECRET_ACCESS_KEY=caVk6L...CI1UAj0ie terraform init
 ```
