@@ -39,6 +39,7 @@ $ aws cloudformation describe-stacks \
 
 - Search `tf-state-store` .
 - Deploy application.
+- https://serverlessrepo.aws.amazon.com/applications/arn:aws:serverlessrepo:us-east-1:963262494726:applications~tf-state-store
 
 ### Include a AWS SAM template
 
@@ -65,7 +66,7 @@ terraform {
   backend "s3" {
     bucket         = "tf-state-store-tfstatebucket-wtj95cwl1jp7"
     key            = "terraform.tfstate"
-    region         = "ap-northeast-1"
+    region         = "us-east-1"
     dynamodb_table = "tf-state-store-TfStateLockTable-1O5JKFU5AD4D7"
   }
 }
