@@ -6,12 +6,6 @@ Parameters:
   TfStateBucketNoncurrentVersionExpirationInDays:
     Type: Number
     Default: 731
-  TfAdministratorKeysStatus:
-    Type: String
-    Default: Active
-  TfAdministratorKeysSerial:
-    Type: Number
-    Default: 0
 
 Resources:
   TfStateBucket:
@@ -41,26 +35,8 @@ Resources:
       SSESpecification:
         SSEEnabled: true
 
-  TfAdministrator:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: TerraformAdministrator
-      ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/AdministratorAccess
-
-  TfAdministratorKeys:
-    Type: AWS::IAM::AccessKey
-    Properties:
-      UserName: !Ref TfAdministrator
-      Status: !Ref TfAdministratorKeysStatus
-      Serial: !Ref TfAdministratorKeysSerial
-
 Outputs:
   TfStateBucketName:
     Value: !Ref TfStateBucket
   TfStateLockTableName:
     Value: !Ref TfStateLockTable
-  TfAdministratorAccesskey:
-    Value: !Ref TfAdministratorKeys
-  TfAdministratorSecretAccesskey:
-    Value: !GetAtt TfAdministratorKeys.SecretAccessKey

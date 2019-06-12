@@ -1,11 +1,19 @@
 # tf-state-store
 
-Create standard backend (S3+Dyanamodb) for Terraform state files.  
+Create standard backend (S3+Dyanamodb) for terraform state files.  
 https://www.terraform.io/docs/backends/types/s3.html
 
 ## Usage
 
-1. Create backend.
+Create a backend with three patterns.
+
+- `aws cloudformation deploy`
+- Deploy from serverless application repository.
+- Include a AWS SAM template.
+
+And execute `terraform init` .
+
+### aws cloudformation deploy
 
 ```
 $ aws cloudformation deploy \
@@ -23,21 +31,31 @@ $ aws cloudformation describe-stacks \
   {
     "OutputKey": "TfStateBucketName",
     "OutputValue": "tf-state-store-tfstatebucket-wtj95cwl1jp7"
-  },
-  {
-    "OutputKey": "TfAdministratorAccesskey",
-    "OutputValue": "AKIAU...LHV746J"
-  },
-  {
-    "OutputKey": "TfAdministratorSecretAccesskey",
-    "OutputValue": "caVk6L...CI1UAj0ie"
   }
 ]
 ```
 
-2. Use by terraform.
+### Deploy from serverless application repository
 
-Write `backend.tf`
+- Search `tf-state-store` .
+- Deploy application.
+
+### Include a AWS SAM template
+
+```
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  TerraformStateStore:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location:
+        ApplicationId: arn:aws:serverlessrepo:ap-northeast-1:963262494726:applications/tf-state-store
+        SemanticVersion: 0.0.2
+      Parameters:
+	  	TfStateBucketNoncurrentVersionExpirationInDays: 731
+```
+
 
 ```
 terraform {
@@ -50,8 +68,14 @@ terraform {
 }
 ```
 
-Initialize.
+### And execute `terraform init`
 
 ```
-$ AWS_ACCESS_KEY_ID=AKIAU...LHV746J AWS_SECRET_ACCESS_KEY=caVk6L...CI1UAj0ie terraform init
+$ terraform init
 ```
+
+# License
+
+MIT License (MIT)
+
+This software is released under the MIT License, see LICENSE.txt.
