@@ -56,6 +56,9 @@ Resources:
 	  	TfStateBucketNoncurrentVersionExpirationInDays: 731
 ```
 
+### And execute `terraform init`
+
+Write `backend.tf`
 
 ```
 terraform {
@@ -68,7 +71,7 @@ terraform {
 }
 ```
 
-### And execute `terraform init`
+And execute `terraform init`
 
 ```
 $ terraform init
